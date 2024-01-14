@@ -1,12 +1,18 @@
-import React from "react";
+import React, {FC, useState } from "react";
 import './todoItemStyles.css'
 
-const TodoItem = () => {
+type TodoItemProps = {
+    onClick: () => void;
+    onHandleChange?: (text:any) => void;
+    valueInput: string;
+}
+
+const TodoItem: FC<TodoItemProps> = (props) => {
     return (
         <>
             <div className="inputContainer">
-                <input type="text" placeholder="Add Task" />
-                <button className="add">Add Task</button>
+                <input onChange={props.onHandleChange} name="task" type="text" placeholder="Add Task" value={props.valueInput} />
+                <button onClick={props.onClick} className="add">Add Task</button>
             </div>
 
         </>
