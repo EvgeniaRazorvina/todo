@@ -7,8 +7,10 @@ import { log } from 'console';
 const App: FC = () => {
   let loadedTodoList = JSON.parse(localStorage.getItem("todos")!);
 
+
   const [task, setTask] = useState<string>("");
   const [todoList, setTodo] = useState<Array<string>>(loadedTodoList);
+  const [edit, setEdit] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setTask(event.target.value);
@@ -24,6 +26,10 @@ const App: FC = () => {
     setTodo(todoList.filter((task)=> {
       return task !== taskDelete
     } ))
+  }
+
+  const editTask = (id:number) => {
+    setEdit(true);
   }
 
   // React.useEffect(() => {
@@ -44,9 +50,10 @@ const App: FC = () => {
             <p className='header'>Todo-List-App</p>
             <TodoItem onHandleChange={handleChange} onClick={addTask} valueInput={task}/>
             <div className="todoList">
-              {todoList.map((task: string, key: number) => {
-                return<TodoTask key={key} task={task} remove={completeTask}/>
-              })}
+              {todoList.map((task: string, key: number) => (
+                <TodoTask key={key} task={task} remove={completeTask} edit={() => {editTask(key)}}/>
+
+              ))}
             </div>
         </div>
     );
